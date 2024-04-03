@@ -1,0 +1,87 @@
+﻿@model web2.Models.Tb_User
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Log in</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="~/Assets/Admin/bootstrap/css/bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Assets/Admin/dist/css/AdminLTE.min.css">
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href=""><h1>Đăng Ký</h1></a>
+        </div><!-- /.login-logo -->
+        <div class="login-box-body">
+            <p class="login-box-msg">Đăng ký khách hàng</p>
+            @*<form action="" method="post">*@
+            @using (Html.BeginForm())
+            {
+                <div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group has-feedback">
+
+                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = "Nhập tài khoản" })
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Nhập mật khẩu" })
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+
+                    @Html.TextBoxFor(m => m.Fullname, new { @class = "form-control", @placeholder = "Nhập tên đầy đủ" })
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Fullname, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+          
+                <div class="form-group has-feedback">
+
+                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "Nhập địa chỉ" })
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+
+                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", @placeholder = "Nhập số điện thoại" })
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <input type="submit" value="Đăng ký" class="btn btn-default" />
+                    </div><!-- /.col -->
+                </div>
+            }
+        </div><!-- /.login-box-body -->
+    </div><!-- /.login-box -->
+    <!-- jQuery 2.1.4 -->
+    <script src="~/Assets/Admin/bootstrap/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="~/Assets/Admin/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

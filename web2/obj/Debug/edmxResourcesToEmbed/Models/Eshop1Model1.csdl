@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="eshop1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Tb_Category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NameVN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Tb_Product" Relationship="Self.FK_Tb_Product_Tb_Category" FromRole="Tb_Category" ToRole="Tb_Product" />
+  </EntityType>
+  <EntityType Name="Tb_OderDetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OderID" Type="Int32" />
+    <Property Name="ProductID" Type="Int32" />
+    <Property Name="UnitPrice" Type="Double" />
+    <Property Name="Quantity" Type="Int32" />
+    <NavigationProperty Name="Tb_Product" Relationship="Self.FK_Tb_OderDetail_Tb_Product" FromRole="Tb_OderDetail" ToRole="Tb_Product" />
+    <NavigationProperty Name="Tb_Order" Relationship="eshop1Model.FK_Tb_OderDetail_Tb_Order" FromRole="Tb_OderDetail" ToRole="Tb_Order" />
+  </EntityType>
+  <EntityType Name="Tb_Product">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UnitPrice" Type="Double" />
+    <Property Name="Image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ProductDate" Type="DateTime" Precision="3" />
+    <Property Name="Available" Type="Boolean" />
+    <Property Name="CategoryID" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Tb_Category" Relationship="Self.FK_Tb_Product_Tb_Category" FromRole="Tb_Product" ToRole="Tb_Category" />
+    <NavigationProperty Name="Tb_OderDetail" Relationship="Self.FK_Tb_OderDetail_Tb_Product" FromRole="Tb_Product" ToRole="Tb_OderDetail" />
+    <Property Name="Slug" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_Tb_Product_Tb_Category">
+    <End Role="Tb_Category" Type="Self.Tb_Category" Multiplicity="0..1" />
+    <End Role="Tb_Product" Type="Self.Tb_Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tb_Category">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Tb_Product">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tb_OderDetail_Tb_Product">
+    <End Role="Tb_Product" Type="Self.Tb_Product" Multiplicity="0..1" />
+    <End Role="Tb_OderDetail" Type="Self.Tb_OderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tb_Product">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Tb_OderDetail">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="eshop1Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Tb_Category" EntityType="Self.Tb_Category" />
+    <EntitySet Name="Tb_OderDetail" EntityType="Self.Tb_OderDetail" />
+    <EntitySet Name="Tb_Product" EntityType="Self.Tb_Product" />
+    <AssociationSet Name="FK_Tb_Product_Tb_Category" Association="Self.FK_Tb_Product_Tb_Category">
+      <End Role="Tb_Category" EntitySet="Tb_Category" />
+      <End Role="Tb_Product" EntitySet="Tb_Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tb_OderDetail_Tb_Product" Association="Self.FK_Tb_OderDetail_Tb_Product">
+      <End Role="Tb_Product" EntitySet="Tb_Product" />
+      <End Role="Tb_OderDetail" EntitySet="Tb_OderDetail" />
+    </AssociationSet>
+    <EntitySet Name="Tb_User" EntityType="eshop1Model.Tb_User" />
+    <EntitySet Name="Tb_Order" EntityType="eshop1Model.Tb_Order" />
+    <AssociationSet Name="FK_Tb_OderDetail_Tb_Order" Association="eshop1Model.FK_Tb_OderDetail_Tb_Order">
+      <End Role="Tb_Order" EntitySet="Tb_Order" />
+      <End Role="Tb_OderDetail" EntitySet="Tb_OderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tb_Order_Tb_User" Association="eshop1Model.FK_Tb_Order_Tb_User">
+      <End Role="Tb_User" EntitySet="Tb_User" />
+      <End Role="Tb_Order" EntitySet="Tb_Order" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Tb_User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RoleID" Type="Int32" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="Int32" />
+    <NavigationProperty Name="Tb_Order" Relationship="eshop1Model.FK_Tb_Order_Tb_User" FromRole="Tb_User" ToRole="Tb_Order" />
+  </EntityType>
+  <EntityType Name="Tb_Order">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="OderDate" Type="DateTime" Precision="3" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="Int32" />
+    <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Tb_OderDetail" Relationship="eshop1Model.FK_Tb_OderDetail_Tb_Order" FromRole="Tb_Order" ToRole="Tb_OderDetail" />
+    <NavigationProperty Name="Tb_User" Relationship="eshop1Model.FK_Tb_Order_Tb_User" FromRole="Tb_Order" ToRole="Tb_User" />
+  </EntityType>
+  <Association Name="FK_Tb_OderDetail_Tb_Order">
+    <End Type="eshop1Model.Tb_Order" Role="Tb_Order" Multiplicity="0..1" />
+    <End Type="eshop1Model.Tb_OderDetail" Role="Tb_OderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tb_Order">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Tb_OderDetail">
+        <PropertyRef Name="OderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tb_Order_Tb_User">
+    <End Type="eshop1Model.Tb_User" Role="Tb_User" Multiplicity="0..1" />
+    <End Type="eshop1Model.Tb_Order" Role="Tb_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tb_User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Tb_Order">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
